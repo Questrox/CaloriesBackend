@@ -13,12 +13,12 @@ namespace Infrastructure.Data
     #region Классы для чтения json
     public class FoodInfo
     {
-        public int calories_per_100g;
-        public double protein_per_100g;
-        public double carbs_per_100g;
-        public double fat_per_100g;
-        public double fiber_per_100g;
-        public string name;
+        public int calories_per_100g { get; set; }
+        public double protein_per_100g { get; set; }
+        public double carbs_per_100g { get; set; }
+        public double fat_per_100g { get; set; }
+        public double fiber_per_100g { get; set; }
+        public string name { get; set; }
     }
     public class MealPlanJson
     {
@@ -79,68 +79,73 @@ namespace Infrastructure.Data
             #endregion
 
             #region Еда
-            var foodJson = File.ReadAllText("nutritional_database_translated.json");
-            var foods = JsonSerializer.Deserialize<Dictionary<string, FoodInfo>>(foodJson);
-
-            foreach (var item in foods)
+            if (!context.Foods.Any())
             {
-                string english = item.Key;
-                var info = item.Value;
+                var foodJson = File.ReadAllText("nutritional_database_translated.json");
+                var foods = JsonSerializer.Deserialize<Dictionary<string, FoodInfo>>(foodJson);
 
-                context.Foods.Add(new Food
+                foreach (var item in foods)
                 {
-                    Name = info.name,
-                    EngName = english,
-                    Calories = info.calories_per_100g,
-                    Protein = info.protein_per_100g,
-                    Fat = info.fat_per_100g,
-                    Carbs = info.carbs_per_100g,
-                    UserId = null // админский продукт
-                });;
-            }
+                    string english = item.Key;
+                    var info = item.Value;
 
-            await context.SaveChangesAsync();
+                    context.Foods.Add(new Food
+                    {
+                        Name = info.name,
+                        EngName = english,
+                        Calories = info.calories_per_100g,
+                        Protein = info.protein_per_100g,
+                        Fat = info.fat_per_100g,
+                        Carbs = info.carbs_per_100g,
+                        UserId = null // админский продукт
+                    }); ;
+                }
+
+                await context.SaveChangesAsync();
+            }
             #endregion
 
             #region Планы питания
 
-            var plansJson = File.ReadAllText("meal-plans-data.json");
-            var plans = JsonSerializer.Deserialize<List<MealPlanJson>>(plansJson);
-
-            foreach (var p in plans)
+            if (!context.MealPlans.Any())
             {
-                var entity = new MealPlan
-                {
-                    Title = p.title,
-                    Description = p.description,
-                    FullDescription = p.fullDescription,
-                    BenefitsJson = JsonSerializer.Serialize(p.benefits),
-                    WarningsJson = p.warnings != null ? JsonSerializer.Serialize(p.warnings) : null,
-                    Calories = p.macros.calories,
-                    Protein = p.macros.protein,
-                    Fat = p.macros.fat,
-                    Carbs = p.macros.carbs
-                };
+                var plansJson = File.ReadAllText("meal-plans-data.json");
+                var plans = JsonSerializer.Deserialize<List<MealPlanJson>>(plansJson);
 
-                context.MealPlans.Add(entity);
-                await context.SaveChangesAsync();
-
-                foreach (var day in p.weekMenu)
+                foreach (var p in plans)
                 {
-                    context.MealPlanDays.Add(new MealPlanDay
+                    var entity = new MealPlan
                     {
-                        MealPlanId = entity.Id,
-                        Day = day.day,
-                        Breakfast = day.breakfast,
-                        Lunch = day.lunch,
-                        Dinner = day.dinner,
-                        Snacks = day.snacks
-                    });
+                        Title = p.title,
+                        Description = p.description,
+                        FullDescription = p.fullDescription,
+                        BenefitsJson = JsonSerializer.Serialize(p.benefits),
+                        WarningsJson = p.warnings != null ? JsonSerializer.Serialize(p.warnings) : null,
+                        Calories = p.macros.calories,
+                        Protein = p.macros.protein,
+                        Fat = p.macros.fat,
+                        Carbs = p.macros.carbs
+                    };
+
+                    context.MealPlans.Add(entity);
+                    await context.SaveChangesAsync();
+
+                    foreach (var day in p.weekMenu)
+                    {
+                        context.MealPlanDays.Add(new MealPlanDay
+                        {
+                            MealPlanId = entity.Id,
+                            Day = day.day,
+                            Breakfast = day.breakfast,
+                            Lunch = day.lunch,
+                            Dinner = day.dinner,
+                            Snacks = day.snacks
+                        });
+                    }
                 }
+
+                await context.SaveChangesAsync();
             }
-
-            await context.SaveChangesAsync();
-
             #endregion
 
         }
