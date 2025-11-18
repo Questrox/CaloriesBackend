@@ -20,7 +20,6 @@ namespace Application.DTOs
             UserId = fe.UserId;
             Food = fe.Food != null ? new FoodDTO(fe.Food) : null;
             MealType = fe.MealType;
-            User = fe.User;
         }
 
         public FoodEntryDTO(FoodEntryDTO fe)
@@ -33,7 +32,6 @@ namespace Application.DTOs
             UserId = fe.UserId;
             Food = fe.Food;
             MealType = fe.MealType;
-            User = fe.User;
         }
 
         public int Id { get; set; }
@@ -44,6 +42,5 @@ namespace Application.DTOs
         public string UserId { get; set; }
         public virtual FoodDTO? Food { get; set; }
         public virtual MealType? MealType { get; set; }
-        public virtual User? User { get; set; }
     }
 }

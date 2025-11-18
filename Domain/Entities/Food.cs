@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
@@ -23,6 +24,7 @@ namespace Domain.Entities
         public double Carbs { get; set; }
         public string? UserId { get; set; }
         public virtual User? User { get; set; }
+        [JsonIgnore]
         public virtual ICollection<FoodEntry> FoodEntry { get; set; }
     }
 }

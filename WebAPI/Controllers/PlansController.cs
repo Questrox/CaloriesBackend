@@ -2,6 +2,7 @@
 using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +39,7 @@ namespace WebAPI.Controllers
         [HttpPut("select/{mealPlanId}")]
         public async Task<ActionResult<UserDTO>> SelectMealPlan(int mealPlanId)
         {
-            var userId = User.FindFirst("sub")?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = await _userService.GetUserByIdAsync(userId);
 
             user.MealPlanId = mealPlanId;

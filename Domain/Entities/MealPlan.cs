@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
@@ -28,8 +29,9 @@ namespace Domain.Entities
         public string Protein { get; set; } = null!;
         public string Fat { get; set; } = null!;
         public string Carbs { get; set; } = null!;
-
+        [JsonIgnore]
         public ICollection<MealPlanDay> MealPlanDay { get; set; }
+        [JsonIgnore]
         public ICollection<User> User { get; set; }
     }
 

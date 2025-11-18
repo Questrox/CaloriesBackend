@@ -16,7 +16,6 @@ namespace Application.DTOs
             Date = w.Date;
             Amount = w.Amount;
             UserId = w.UserId;
-            User = w.User;
         }
 
         public WaterEntryDTO(WaterEntryDTO w)
@@ -25,14 +24,12 @@ namespace Application.DTOs
             Date = w.Date;
             Amount = w.Amount;
             UserId = w.UserId;
-            User = w.User;
         }
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public double Amount { get; set; }
         public string UserId { get; set; }
-        public User? User { get; set; }
     }
 
 }

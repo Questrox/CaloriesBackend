@@ -19,7 +19,6 @@ namespace Application.DTOs
             Dinner = d.Dinner;
             Snacks = d.Snacks;
             MealPlanId = d.MealPlanId;
-            MealPlan = d.MealPlan;
         }
 
         public MealPlanDayDTO(MealPlanDayDTO d)
@@ -31,7 +30,6 @@ namespace Application.DTOs
             Dinner = d.Dinner;
             Snacks = d.Snacks;
             MealPlanId = d.MealPlanId;
-            MealPlan = d.MealPlan;
         }
 
         public int Id { get; set; }
@@ -41,6 +39,5 @@ namespace Application.DTOs
         public string Dinner { get; set; }
         public string? Snacks { get; set; }
         public int MealPlanId { get; set; }
-        public MealPlan? MealPlan { get; set; }
     }
 }
