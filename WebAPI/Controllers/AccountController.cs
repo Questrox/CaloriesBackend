@@ -17,20 +17,9 @@ namespace WebAPI.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager,
+        IConfiguration _configuration, ILogger<AccountController> _logger) : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<AccountController> _logger;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
-            IConfiguration configuration, ILogger<AccountController> logger)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
-            _logger = logger;
-        }
         /// <summary>
         /// Метод регистрации. Пытается создать пользователя на основе модели
         /// </summary>

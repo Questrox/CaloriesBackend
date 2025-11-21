@@ -12,20 +12,10 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DiaryController : ControllerBase
+    public class DiaryController(FoodService _foodService, FoodEntryService _foodEntryService, 
+        WaterEntryService _waterEntryService) : ControllerBase
     {
-        private readonly FoodService _foodService;
-        private readonly FoodEntryService _foodEntryService;
-        private readonly WaterEntryService _waterEntryService;
-
-        public DiaryController(FoodService foodService, FoodEntryService foodEntryService, WaterEntryService waterEntryService)
-        {
-            _foodService = foodService;
-            _foodEntryService = foodEntryService;
-            _waterEntryService = waterEntryService;
-        }
-
-        [HttpGet("foods")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<FoodDTO>>> GetFoods()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -33,7 +23,7 @@ namespace WebAPI.Controllers
             return Ok(foods);
         }
 
-        [HttpPost("foods")]
+        [HttpPost("[action]")]
         public async Task<ActionResult<FoodDTO>> AddFood(CreateFoodDTO dto)
         {
             dto.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -41,7 +31,7 @@ namespace WebAPI.Controllers
             return Ok(food);
         }
 
-        [HttpGet("food-entries")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<FoodEntryDTO>>> GetFoodEntries(DateTime date)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -49,7 +39,7 @@ namespace WebAPI.Controllers
             return Ok(entries);
         }
 
-        [HttpPost("food-entries")]
+        [HttpPost("[action]")]
         public async Task<ActionResult<FoodEntryDTO>> AddFoodEntry(CreateFoodEntryDTO dto)
         {
             dto.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -57,14 +47,14 @@ namespace WebAPI.Controllers
             return Ok(entry);
         }
 
-        [HttpDelete("food-entries/{id}")]
+        [HttpDelete("[action]/{id}")]
         public async Task<IActionResult> DeleteFoodEntry(int id)
         {
             await _foodEntryService.DeleteFoodEntryAsync(id);
             return NoContent();
         }
 
-        [HttpGet("water")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<WaterEntryDTO>>> GetWaterEntries(DateTime date)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -72,7 +62,7 @@ namespace WebAPI.Controllers
             return Ok(entries);
         }
 
-        [HttpPost("water")]
+        [HttpPost("[action]")]
         public async Task<ActionResult<WaterEntryDTO>> AddWaterEntry(CreateWaterEntryDTO dto)
         {
             dto.UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -80,7 +70,7 @@ namespace WebAPI.Controllers
             return Ok(entry);
         }
 
-        [HttpDelete("water/{id}")]
+        [HttpDelete("[action]/{id}")]
         public async Task<IActionResult> DeleteWaterEntry(int id)
         {
             await _waterEntryService.DeleteFoodEntryAsync(id);

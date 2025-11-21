@@ -112,4 +112,19 @@ using (var scope = app.Services.CreateScope()) //Создает окружение для работы вн
 //Статические файлы
 app.UseStaticFiles();
 
+//app.Lifetime.ApplicationStarted.Register(() =>
+//{
+//    Task.Run(async () =>
+//    {
+//        using (var scope = app.Services.CreateScope())
+//        {
+//            var services = scope.ServiceProvider;
+//            var context = services.GetRequiredService<CaloriesDb>();
+//            var userManager = services.GetRequiredService<UserManager<User>>();
+//            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+//            await DbInitializer.Initialize(context, userManager, roleManager);
+//        }
+//    });
+//});
+
 app.Run();

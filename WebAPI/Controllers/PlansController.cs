@@ -11,32 +11,23 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PlansController : ControllerBase
+    public class PlansController(MealPlanService _mealPlanService, UserService _userService) : ControllerBase
     {
-        private readonly MealPlanService _mealPlanService;
-        private readonly UserService _userService;
-
-        public PlansController(MealPlanService mealPlanService, UserService userService)
-        {
-            _mealPlanService = mealPlanService;
-            _userService = userService;
-        }
-
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<MealPlanDTO>>> GetMealPlans()
         {
             var plans = await _mealPlanService.GetMealPlansAsync();
             return Ok(plans);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("[action]/{id}")]
         public async Task<ActionResult<MealPlanDTO>> GetMealPlan(int id)
         {
             var plan = await _mealPlanService.GetMealPlanAsync(id);
             return Ok(plan);
         }
 
-        [HttpPut("select/{mealPlanId}")]
+        [HttpPut("[action]/{id}")]
         public async Task<ActionResult<UserDTO>> SelectMealPlan(int mealPlanId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
