@@ -19,8 +19,6 @@ namespace Application.DTOs
             Protein = f.Protein;
             Fat = f.Fat;
             Carbs = f.Carbs;
-            UserId = f.UserId;
-            User = f.User;
         }
 
         public FoodDTO(FoodDTO f)
@@ -32,8 +30,6 @@ namespace Application.DTOs
             Protein = f.Protein;
             Fat = f.Fat;
             Carbs = f.Carbs;
-            UserId = f.UserId;
-            User = f.User;
         }
 
         public int Id { get; set; }
@@ -43,8 +39,6 @@ namespace Application.DTOs
         public double Protein { get; set; }
         public double Fat { get; set; }
         public double Carbs { get; set; }
-        public string? UserId { get; set; }
-        public virtual User? User { get; set; }
     }
 
 }

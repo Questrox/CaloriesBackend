@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         /// <param name="model">Содержит логин и пароль</param>
         /// <returns>Статус ОК со сгенерированным JWT-токеном, именем пользователя и ролью или же Unauthorized в случае неверных данных</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<ActionResult<LoginResult>> Login(LoginModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -61,7 +61,12 @@ namespace WebAPI.Controllers
                 IList<string> roles = await _userManager.GetRolesAsync(user);
                 string userRole = roles.FirstOrDefault();
                 _logger.LogInformation($"Пользователь {model.UserName} успешно вошел в систему");
-                return Ok(new { token, userName = user.UserName, userRole });
+                return Ok(new LoginResult
+                {
+                    Token = token,
+                    UserName = user.UserName,
+                    UserRole = userRole
+                });
             }
             _logger.LogError($"Пользователю {model.UserName} не удалось выполнить вход");
             return Unauthorized();
@@ -84,7 +89,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns>Unauthorized, если пользователь не аутентифицирован, и OK с именем и ролью, если аутентифицирован</returns>
         [HttpGet("validate")]
-        public async Task<IActionResult> ValidateToken()
+        public async Task<ActionResult<ValidateResult>> ValidateToken()
         {
             _logger.LogInformation("Происходит валидация токена");
             User usr = await _userManager.GetUserAsync(HttpContext.User);
@@ -96,7 +101,7 @@ namespace WebAPI.Controllers
             _logger.LogInformation($"Сессия активна для пользователя {usr.UserName}");
             IList<string> roles = await _userManager.GetRolesAsync(usr);
             string userRole = roles.FirstOrDefault();
-            return Ok(new { message = "Сессия активна", userName = usr.UserName, userRole });
+            return Ok(new ValidateResult{ Message = "Сессия активна", UserName = usr.UserName, UserRole = userRole });
 
         }
         /// <summary>

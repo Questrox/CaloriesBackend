@@ -54,8 +54,6 @@ namespace Infrastructure.Data
     {
         public static async Task Initialize(CaloriesDb context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            context.Database.EnsureCreated();
-
             #region Пользователи
             // Проверяем наличие ролей
             if (!roleManager.Roles.Any())
