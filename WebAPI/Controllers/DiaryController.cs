@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     [ApiController]
     [Authorize]
     public class DiaryController(FoodService _foodService, FoodEntryService _foodEntryService, 
-        WaterEntryService _waterEntryService) : ControllerBase
+        WaterEntryService _waterEntryService, ILogger<DiaryController> _logger) : ControllerBase
     {
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<FoodDTO>>> GetFoods()

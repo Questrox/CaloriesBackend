@@ -28,10 +28,10 @@ namespace Infrastructure.Repositories
         }
         public async Task DeleteWaterEntryAsync(int id)
         {
-            var entry = await _db.FoodEntries.FirstOrDefaultAsync(f => f.Id == id);
+            var entry = await _db.WaterEntries.FirstOrDefaultAsync(f => f.Id == id);
             if (entry != null)
             {
-                _db.FoodEntries.Remove(entry);
+                _db.WaterEntries.Remove(entry);
                 await _db.SaveChangesAsync();
             }
         }

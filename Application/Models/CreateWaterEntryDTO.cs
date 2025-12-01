@@ -10,6 +10,6 @@ namespace Application.DTOs
     {
         public DateTime Date { get; set; }
         public double Amount { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Application.DTOs;
 using Application.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,7 +13,8 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PlansController(MealPlanService _mealPlanService, UserService _userService) : ControllerBase
+    public class PlansController(MealPlanService _mealPlanService, UserService _userService,
+         ILogger<PlansController> _logger) : ControllerBase
     {
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<MealPlanDTO>>> GetMealPlans()
@@ -20,14 +23,17 @@ namespace WebAPI.Controllers
             return Ok(plans);
         }
 
-        [HttpGet("[action]/{id}")]
-        public async Task<ActionResult<MealPlanDTO>> GetMealPlan(int id)
+        [HttpGet("[action]")]
+        public async Task<ActionResult<MealPlanDTO>> GetCurrentMealPlan()
         {
-            var plan = await _mealPlanService.GetMealPlanAsync(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            var plan = user.MealPlan;
             return Ok(plan);
         }
 
-        [HttpPut("[action]/{id}")]
+        [HttpPut("[action]/{mealPlanId}")]
         public async Task<ActionResult<UserDTO>> SelectMealPlan(int mealPlanId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

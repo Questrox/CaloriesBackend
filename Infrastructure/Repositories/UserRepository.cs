@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetUserByIdAsync(string id)
         {
-            return await _db.Users.Include(u => u.MealPlan).FirstOrDefaultAsync(u => u.Id == id);
+            return await _db.Users.Include(u => u.MealPlan).ThenInclude(m => m.MealPlanDay).FirstOrDefaultAsync(u => u.Id == id);
         }
         public async Task<User> UpdateUserAsync(User user)
         {

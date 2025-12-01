@@ -12,6 +12,6 @@ namespace Application.DTOs
         public double Weight { get; set; }
         public int FoodId { get; set; }
         public int MealTypeId { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }

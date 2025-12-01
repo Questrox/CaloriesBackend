@@ -10,6 +10,7 @@ namespace Domain.Interfaces
     public interface IFoodEntryRepository
     {
         Task<IEnumerable<FoodEntry>> GetUserFoodEntriesByDateAsync(string userId, DateTime date);
+        Task<FoodEntry> GetFoodEntryByIdAsync(int id);
         Task AddFoodEntryAsync(FoodEntry entry);
         Task DeleteFoodEntryAsync(int id);
     }

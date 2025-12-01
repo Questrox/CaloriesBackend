@@ -27,6 +27,7 @@ public class FoodEntryService
             UserId = entry.UserId
         };
         await _FERepository.AddFoodEntryAsync(newFE);
+        newFE = await _FERepository.GetFoodEntryByIdAsync(newFE.Id);
         return new FoodEntryDTO(newFE);
     }
     public async Task DeleteFoodEntryAsync(int id)

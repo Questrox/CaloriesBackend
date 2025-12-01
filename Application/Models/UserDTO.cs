@@ -19,7 +19,7 @@ namespace Application.DTOs
             FullName = u.FullName;
             MealPlanStart = u.MealPlanStart;
             MealPlanId = u.MealPlanId;
-            MealPlan = u.MealPlan;
+            MealPlan = u.MealPlan != null ? new MealPlanDTO(u.MealPlan) : null;
             Food = u.Food.Select(f => new FoodDTO(f)).ToList();
             FoodEntry = u.FoodEntry.Select(fe => new FoodEntryDTO(fe)).ToList();
             WaterEntry = u.WaterEntry.Select(we => new WaterEntryDTO(we)).ToList();
@@ -29,7 +29,7 @@ namespace Application.DTOs
         public string FullName { get; set; }
         public DateTime MealPlanStart { get; set; }
         public int? MealPlanId { get; set; }
-        public MealPlan? MealPlan { get; set; }
+        public MealPlanDTO? MealPlan { get; set; }
         public ICollection<FoodDTO>? Food { get; set; }
         public ICollection<FoodEntryDTO>? FoodEntry { get; set; }
         public ICollection<WaterEntryDTO>? WaterEntry { get; set; }

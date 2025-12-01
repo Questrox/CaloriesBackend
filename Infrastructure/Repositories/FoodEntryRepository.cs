@@ -22,6 +22,10 @@ namespace Infrastructure.Repositories
             return await _db.FoodEntries.Include(f => f.Food).Include(f => f.MealType)
                 .Where(f => f.UserId == userId && f.Date == date).ToListAsync();
         }
+        public async Task<FoodEntry> GetFoodEntryByIdAsync(int id)
+        {
+            return await _db.FoodEntries.Include(f => f.Food).Include(f => f.MealType).FirstOrDefaultAsync(f => f.Id == id);
+        }
         public async Task AddFoodEntryAsync(FoodEntry entry)
         {
             _db.FoodEntries.Add(entry);
